@@ -1,0 +1,25 @@
+package com.zuzex.education.autkincityservice.dto.house;
+
+import com.zuzex.education.autkincityservice.dto.address.AddressDto;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
+import lombok.extern.jackson.Jacksonized;
+
+import java.math.BigDecimal;
+import java.util.UUID;
+
+@Jacksonized
+@Builder(toBuilder = true)
+public record HouseDto(
+        @NotNull
+        UUID id,
+
+        @NotNull
+        AddressDto address,
+
+        @NotNull
+        @DecimalMin("1000.00")
+        BigDecimal price
+) {
+}
