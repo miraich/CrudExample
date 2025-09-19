@@ -47,31 +47,95 @@ mvn spring-boot:run
 
 ### Residents (`/api/v1/residents`)
 - POST `/` — создать жителя вместе с паспортом. Body: `CreateResidentRq`. Response: `CreateResidentRs`. Status: 201.
+
+```json
+{
+  "phone": "+7 999 123-45-67",
+  "email": "john.doe@example.com",
+  "passport": {
+    "id": "c0a80101-0000-0000-0000-000000000001",
+    "gender": "MALE",
+    "address": {
+      "id": "c0a80101-0000-0000-0000-000000000002",
+      "country": "Russia",
+      "city": "Moscow",
+      "street": "Tverskaya",
+      "house": "1"
+    },
+    "birthDate": "31-12-1990",
+    "firstName": "John",
+    "lastName": "Doe"
+  }
+}
+```
+
 - GET `/{residentId}` — получить жителя по ID. Response: `ReadResidentRs`.
 - GET `/` — получить список жителей (с паспортами). Response: `GetAllResidentRs`.
 - GET `/city/{cityName}/count` — получить статистику по количеству жителей в городе (не реализовано, возвращает 501/UnsupportedOperationException).
 - GET `/houses/street/{street}` — получить владельцев домов по названию улицы. Response: `GetAllResidentRs`.
 - PATCH `/{residentId}` — обновить жителя. Body: `UpdateResidentRq`. Response: `UpdateResidentRs`.
+
+```json
+{
+  "phone": "+7 999 000-00-00",
+  "email": "new.email@example.com"
+}
+```
+
 - POST `/{residentId}/retire` — перевести жителя в пенсионеры (не реализовано, UnsupportedOperationException). Response: `ReadResidentRs` (по контракту метода).
 - DELETE `/{residentId}` — удалить жителя. Status: 204.
 
 ### Houses (`/api/v1/houses`)
 - POST `/` — создать дом. Body: `CreateHouseRq`. Response: `CreateHouseRs`. Status: 201.
+
+```json
+{
+  "addressId": "c0a80101-0000-0000-0000-000000000002",
+  "price": 1250000.00
+}
+```
+
 - POST `/{houseId}/residents/{residentId}` — добавить владельца дому. Response: `ReadHouseRs`. Status: 201.
 - GET `/{houseId}` — получить дом по ID. Response: `ReadHouseRs`.
 - GET `/` — получить список домов. Response: `GetAllHouseRs`.
 - PATCH `/{houseId}` — обновить дом. Body: `UpdateHouseRq`. Response: `UpdateHouseRs`.
+
+```json
+{
+  "addressId": "c0a80101-0000-0000-0000-000000000002",
+  "price": 1300000.00
+}
+```
+
 - DELETE `/{houseId}` — удалить дом. Status: 204.
 - DELETE `/{houseId}/residents/{residentId}` — удалить владельца дома. Status: 204.
 
 ### Cars (`/api/v1/cars`)
 - POST `/` — создать автомобиль. Body: `CreateCarRq`. Response: `CreateCarRs`. Status: 201.
+
+```json
+{
+  "color": "Black",
+  "brand": "BMW",
+  "price": 35000.00
+}
+```
+
 - POST `/{carId}/residents/{residentId}` — назначить владельца авто. Response: `UpdateCarRs`.
 - GET `/residents/{residentId}` — получить автомобили по ID жителя. Response: `GetAllCarRs`.
 - GET `/brand/{brandName}` — получить автомобили по бренду (не реализовано, UnsupportedOperationException). Response: `GetAllCarRs`.
 - PATCH `/brand/{brandId}` — сменить имя бренда (не реализовано, UnsupportedOperationException).
 - GET `/{carId}` — получить авто по ID. Response: `ReadCarRs`.
 - PATCH `/{carId}` — обновить авто. Body: `UpdateCarRq`. Response: `UpdateCarRs`.
+
+```json
+{
+  "color": "White",
+  "brand": "Audi",
+  "price": 42000.00
+}
+```
+
 - DELETE `/{carId}` — удалить авто. Status: 204.
 
 ### Passports (`/api/v1/passports`)
